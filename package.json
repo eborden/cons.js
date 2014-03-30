@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "node_modules/.bin/jasmine-node"
+    "test": "node_modules/.bin/mocha spec"
   },
   "keywords": [
     "list",
@@ -20,6 +20,7 @@
   "dependencies": {
   },
   "devDependencies": {
-    "jasmine-node": "^1.14.3"
+    "chai": "^1.9.1",
+    "mocha": "^1.18.2"
   }
 }

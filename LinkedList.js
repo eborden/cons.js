@@ -1,25 +1,32 @@
 module.exports = {
     list: list,
     cons: cons,
+    iterator: iterator,
     car: car,
     cdr: cdr,
     c_r: c_r,
     foldl: foldl,
-    foldr: foldr
+    foldr: foldr,
+    map: map,
+    reverse: reverse,
+    take: take,
+    foreach: foreach,
+    set: set,
+    merge: merge    
 };
 
 /*
  * Immutable cons cell constructor
  */
-function Cons(left, right) {
-    Object.defineProperty(this, 'left', {
-        value: left,
+function Cons(car, cdr) {
+    Object.defineProperty(this, 'car', {
+        value: car,
         enumerable: true,
         configurable: false,
         writable: false
     });
-    Object.defineProperty(this, 'right', {
-        value: right,
+    Object.defineProperty(this, 'cdr', {
+        value: cdr,
         enumerable: true,
         configurable: false,
         writable: false
@@ -42,52 +49,24 @@ Cons.prototype.toString = function () {
     return this.toArray().toString();
 };
 
-/*
- * Persistent assignment. Returns a list with the
- * defined index assigned to the provided value.
- */
 Cons.prototype.set = function (i, value) {
     return set(this, i, value);
 };
 
-/*
- * Apply a function to every value of a list.
- * returns a new list.
- */
-Cons.prototype.map = function map(func) {
-    return foldr(function (accumulator, value) {
-        return cons(func(value), accumulator);
-    }, this, null);
+Cons.prototype.map = function (func) {
+    return map(func, this);
 };
 
-/*
- * Return a new list in the reverse order of the applied.
- */
-Cons.prototype.reverse = function reverse() {
-    return foldl(function (accumulator, value) {
-        return cons(value, accumulator);
-    }, this, null);
+Cons.prototype.reverse = function () {
+    return reverse(this);
 };
 
-/*
- * Apply a function to every element of a list
- * returns the same list.
- */
-Cons.prototype.foreach = function foreach(func) {
-    foldl(function (accumulator, value) {
-        func(value);
-    }, this, null);
-    return this;
+Cons.prototype.foreach = function (func) {
+    return foreach(func, this);
 };
 
-/*
- * return the x number of elements from a list
- */
-Cons.prototype.take = function take(num) {
-    if (!num) {
-        return null;
-    }
-    return cons(car(this), cdr(this).take(num - 1));
+Cons.prototype.take = function (num) {
+    return take(num, this);
 };
 
 Cons.prototype.foldl = function (func, accumulator) {
@@ -98,16 +77,8 @@ Cons.prototype.foldr = function (func, accumulator) {
     return foldr(func, accumulator, this);
 };
 
-Cons.prototype.cons = function (right) {
-    return cons(this, right);
-};
-
-Cons.prototype.car = function () {
-    return car(this);
-};
-
-Cons.prototype.cdr = function () {
-    return cdr(this);
+Cons.prototype.cons = function (cdr) {
+    return cons(this, cdr);
 };
 
 Cons.prototype.c_r = function (string) {
@@ -117,8 +88,8 @@ Cons.prototype.c_r = function (string) {
 /*
  * Function to create a new cons cell.
  */
-function cons(left, right) {
-    return new Cons(left, right);
+function cons(car, cdr) {
+    return new Cons(car, cdr);
 }
 
 /*
@@ -127,7 +98,7 @@ function cons(left, right) {
  */
 function list(/*..values*/) {
     var i = arguments.length - 1,
-        node = null;
+        node = undefined;
     while (i >= 0) {
         node = new Cons(arguments[i--], node);
     }
@@ -135,18 +106,41 @@ function list(/*..values*/) {
 }
 
 /*
+ * Create a binary search tree
+ */
+function binary(/*..values*/) {
+    var i = arguments.length - 1,
+        node = undefined;
+    while (i >= 0) {
+        node = new Cons(arguments[i--], node);
+    }
+    return node;
+}
+
+/*
+ * Return iterator function
+ */
+function iterator(list) {
+    return function () {
+        var value = car(list);
+        list = cdr(list);
+        return value;
+    };
+}
+
+/*
  * Function to return the value of the provided cons cell
  * or in other words the value of the first element of a list.
  */
 function car(node) {
-    return node ? node.left : null;
+    return node ? node.car : undefined;
 }
 
 /*
  * Return the item assigned to the second value of a cons cell.
  */
 function cdr(node) {
-    return node ? node.right : null;
+    return node ? node.cdr : undefined;
 }
 
 /*
@@ -185,9 +179,57 @@ function foldl(func, list, accumulator) {
 /*
  * Recurse through array accumualting values from right to left
  */
-function foldr(func, list, accumulator) {
-    if (list === null) {
+function foldr(func, accumulator, list) {
+    if (list === undefined) {
         return accumulator;
     }
-    return func(foldr(func, cdr(list), accumulator), car(list));
+    return func(foldr(func, accumulator, cdr(list)), car(list));
+}
+/*
+ * Apply a function to every value of a list.
+ * returns a new list.
+ */
+function map(func, list) {
+    return foldr(function (accumulator, value) {
+        return cons(func(value), accumulator);
+    }, undefined, list);
+}
+
+/*
+ * Return a new list in the reverse order of the applied.
+ */
+function reverse(list) {
+    return foldl(function (accumulator, value) {
+        return cons(value, accumulator);
+    }, list, undefined);
+}
+
+/*
+ * Apply a function to every element of a list
+ * returns the same list.
+ */
+function foreach(func, list) {
+    foldl(function (accumulator, value) {
+        func(value);
+    }, list, undefined);
+    return list;
+}
+
+/*
+ * return the x number of elements from a list
+ */
+function take(num, list) {
+    if (!num) {
+        return undefined;
+    }
+    return cons(car(list), cdr(list).take(num - 1));
+}
+
+/*
+ * Merge two lists, the first list is recreated, the second is persistent
+ */
+function merge(list1, list2) {
+    return foldr(function (list, v) {
+        return cons(v, list);
+    }, list2, list1);
 }
