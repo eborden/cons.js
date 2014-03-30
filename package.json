@@ -1,0 +1,25 @@
+{
+  "name": "LinkedList",
+  "version": "0.0.0",
+  "description": "LIPSesk linked list implementation.",
+  "main": "LinkedList.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node_modules/.bin/jasmine-node"
+  },
+  "keywords": [
+    "list",
+    "linkedlist",
+    "lisp",
+    "functional"
+  ],
+  "author": "Evan Rutledge Borden",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "jasmine-node": "^1.14.3"
+  }
+}
