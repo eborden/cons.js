@@ -39,7 +39,7 @@ function Cons(car, cdr) {
 Cons.prototype.toArray = function toArray() {
     return foldl(function (accumulator, value) {
         return accumulator.push(value), accumulator;
-    }, this, []);
+    }, [], this);
 };
 
 /*
@@ -169,7 +169,7 @@ function set(node, i, value) {
 /*
  * Recurse through array accumualting values from left to right
  */
-function foldl(func, list, accumulator) {
+function foldl(func, accumulator, list) {
     do {
         accumulator = func(accumulator, car(list));
     } while (list = cdr(list))
@@ -201,7 +201,7 @@ function map(func, list) {
 function reverse(list) {
     return foldl(function (accumulator, value) {
         return cons(value, accumulator);
-    }, list, undefined);
+    }, undefined, list);
 }
 
 /*
@@ -211,7 +211,7 @@ function reverse(list) {
 function foreach(func, list) {
     foldl(function (accumulator, value) {
         func(value);
-    }, list, undefined);
+    }, undefined, list);
     return list;
 }
 

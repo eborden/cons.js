@@ -77,12 +77,12 @@ describe('LinkedList', function () {
     it('can fold over a list', function () {
         var add = function (x, y) {return x + y;};
         // OOP
-        expect(17).to.eql(x.foldl(add));
-        expect(17).to.eql(x.foldr(add));
+        expect(21).to.eql(x.foldl(add, 0));
+        expect(21).to.eql(x.foldr(add, 0));
         
         // Functional
-        expect(17).to.eql(l.foldl(add, x));
-        expect(17).to.eql(l.foldr(add, x));
+        expect(21).to.eql(l.foldl(add, 0, x));
+        expect(21).to.eql(l.foldr(add, 0, x));
     });
 
     it('can reverse a list', function () {
