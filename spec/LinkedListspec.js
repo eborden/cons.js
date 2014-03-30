@@ -30,6 +30,9 @@ describe('LinkedList', function () {
     });
     
     it('can prepend to a list', function () {
+        // OOP
+        expect('-1,0,1,2,3,4,5,6').to.eql(x.cons(0).cons(-1).toString());
+        // Functional
         expect('-1,0,1,2,3,4,5,6').to.eql(cons(-1, cons(0, x)).toString());
     });
 
@@ -69,6 +72,17 @@ describe('LinkedList', function () {
         // Functional
         expect('5,10,15,20,25,30').to.eql(l.map(mul, x).toString());
         expect('10,15,20,25,30,35').to.eql(l.map(add, l.map(mul, x)).toString());
+    });
+
+    it('can fold over a list', function () {
+        var add = function (x, y) {return x + y;};
+        // OOP
+        expect(17).to.eql(x.foldl(add));
+        expect(17).to.eql(x.foldr(add));
+        
+        // Functional
+        expect(17).to.eql(l.foldl(add, x));
+        expect(17).to.eql(l.foldr(add, x));
     });
 
     it('can reverse a list', function () {

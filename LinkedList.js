@@ -70,15 +70,15 @@ Cons.prototype.take = function (num) {
 };
 
 Cons.prototype.foldl = function (func, accumulator) {
-    return fold(func, accumulator, this);
+    return foldl(func, accumulator, this);
 };
 
 Cons.prototype.foldr = function (func, accumulator) {
     return foldr(func, accumulator, this);
 };
 
-Cons.prototype.cons = function (cdr) {
-    return cons(this, cdr);
+Cons.prototype.cons = function (car) {
+    return cons(car, this);
 };
 
 Cons.prototype.c_r = function (string) {
