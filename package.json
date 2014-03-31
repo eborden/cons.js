@@ -1,8 +1,8 @@
 {
-  "name": "LinkedList",
+  "name": "Cons.js",
   "version": "0.0.0",
-  "description": "LIPSesk linked list implementation.",
-  "main": "LinkedList.js",
+  "description": "Cons cells for JavaScript, build lists, binary trees and tuples. OOP and Functional paradigms supported.",
+  "main": "cons.js",
   "directories": {
     "test": "test"
   },
