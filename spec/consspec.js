@@ -62,7 +62,7 @@ describe('Cons', function () {
         expect('1,2,3,4,5,6').to.eql(x.toString());
         
         // Functional
-        expect('1,2,88,4,5,6').to.eql(cons.set(x, 2, 88).toString());
+        expect('1,2,88,4,5,6').to.eql(cons.set(2, 88, x).toString());
         expect('1,2,3,4,5,6').to.eql(x.toString());
     });
 

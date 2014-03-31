@@ -38,7 +38,7 @@ Cons.prototype.toString = function () {
  * OOP methods of Cons
  */
 Cons.prototype.set = function (i, value) {
-    return set(this, i, value);
+    return set(i, value, this);
 };
 Cons.prototype.map = function (func) {
     return map(func, this);
@@ -153,11 +153,11 @@ function c_r(string, node) {
 /*
  * Persistent set. Creates a new immutable list while recycling what it can.
  */
-function set(node, i, value) {
+function set(i, value, node) {
     if (i === 0) {
         return cons(value, cdr(node));
     }
-    return cons(car(node), set(cdr(node), i - 1, value));
+    return cons(car(node), set(i - 1, value, cdr(node)));
 }
 
 /*
@@ -216,7 +216,7 @@ function take(num, list) {
     if (!num) {
         return undefined;
     }
-    return cons(car(list), cdr(list).take(num - 1));
+    return cons(car(list), take(num - 1, cdr(list)));
 }
 
 /*
