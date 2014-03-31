@@ -5,10 +5,10 @@ car = cons.car;
 cdr = cons.cdr;
 c_r = cons.c_r;
 
-describe('LinkedList', function () {
+describe('Cons', function () {
     var x = list(1, 2, 3, 4, 5, 6);
 
-    it('is generated with immutable cons cells', function () {
+    it('generates immutable cons cells', function () {
         var c = cons(5, 6);
         expect(c.car).to.eql(5);
         expect(c.cdr).to.eql(6);
@@ -28,9 +28,14 @@ describe('LinkedList', function () {
         expect('1,foo,[object Object],0.5').to.eql(list(1, 'foo', {}, 0.5).toString());
     });
     
+    it('can convert a list to an array', function () {
+        expect([1,2,3,4,5,6]).to.eql(x.toArray());
+    });
+
     it('can prepend to a list', function () {
         // OOP
         expect('-1,0,1,2,3,4,5,6').to.eql(x.cons(0).cons(-1).toString());
+        
         // Functional
         expect('-1,0,1,2,3,4,5,6').to.eql(cons(-1, cons(0, x)).toString());
     });
@@ -113,5 +118,22 @@ describe('LinkedList', function () {
         expect(i()).to.eql(undefined);
         expect(i()).to.eql(undefined);
         expect(i()).to.eql(undefined);
+    });
+
+    it('can be iterated with foreach and return the same list', function () {
+        // OOP
+        i = cons.iterator(x);
+        expect(x).to.eqls(x.foreach(function (v) {
+            expect(i()).to.eql(v);
+        }));
+
+        // Functional
+        var i = cons.iterator(x);
+        expect(x).to.eqls(cons.foreach(function (v) {
+            expect(i()).to.eql(v);
+        }, x));
+    });
+
+    it.skip('can generate a binary search tree', function () {
     });
 });

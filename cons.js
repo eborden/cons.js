@@ -34,38 +34,33 @@ Cons.prototype.toString = function () {
     return this.toArray().toString();
 };
 
+/*
+ * OOP methods of Cons
+ */
 Cons.prototype.set = function (i, value) {
     return set(this, i, value);
 };
-
 Cons.prototype.map = function (func) {
     return map(func, this);
 };
-
 Cons.prototype.reverse = function () {
     return reverse(this);
 };
-
 Cons.prototype.foreach = function (func) {
     return foreach(func, this);
 };
-
 Cons.prototype.take = function (num) {
     return take(num, this);
 };
-
 Cons.prototype.foldl = function (func, accumulator) {
     return foldl(func, accumulator, this);
 };
-
 Cons.prototype.foldr = function (func, accumulator) {
     return foldr(func, accumulator, this);
 };
-
 Cons.prototype.cons = function (car) {
     return cons(car, this);
 };
-
 Cons.prototype.c_r = function (string) {
     return c_r(string, this);
 };
@@ -76,7 +71,10 @@ Cons.prototype.c_r = function (string) {
 function cons(car, cdr) {
     return new Cons(car, cdr);
 }
-// Static methods of cons
+/*
+ * Static functional methods of cons
+ */
+cons.binaryTree = binaryTree;
 cons.list = list;
 cons.iterator = iterator;
 cons.car = car;
@@ -92,22 +90,19 @@ cons.set = set;
 cons.merge = merge;    
 
 /*
+ * Create a binary search tree
+ */
+function binaryTree(/*..values*/) {
+    /*
+     * Not implemented
+     */
+}
+
+/*
  * List constructor
  * arguments are used as the values of the list
  */
 function list(/*..values*/) {
-    var i = arguments.length - 1,
-        node = undefined;
-    while (i >= 0) {
-        node = new Cons(arguments[i--], node);
-    }
-    return node;
-}
-
-/*
- * Create a binary search tree
- */
-function binary(/*..values*/) {
     var i = arguments.length - 1,
         node = undefined;
     while (i >= 0) {
@@ -128,7 +123,7 @@ function iterator(list) {
 }
 
 /*
- * Function to return the value of the provided cons cell
+ * Function to return the first value of the provided cons cell
  * or in other words the value of the first element of a list.
  */
 function car(node) {
