@@ -1,19 +1,4 @@
-module.exports = {
-    list: list,
-    cons: cons,
-    iterator: iterator,
-    car: car,
-    cdr: cdr,
-    c_r: c_r,
-    foldl: foldl,
-    foldr: foldr,
-    map: map,
-    reverse: reverse,
-    take: take,
-    foreach: foreach,
-    set: set,
-    merge: merge    
-};
+module.exports = cons;
 
 /*
  * Immutable cons cell constructor
@@ -91,6 +76,20 @@ Cons.prototype.c_r = function (string) {
 function cons(car, cdr) {
     return new Cons(car, cdr);
 }
+// Static methods of cons
+cons.list = list;
+cons.iterator = iterator;
+cons.car = car;
+cons.cdr = cdr;
+cons.c_r = c_r;
+cons.foldl = foldl;
+cons.foldr = foldr;
+cons.map = map;
+cons.reverse = reverse;
+cons.take = take;
+cons.foreach = foreach;
+cons.set = set;
+cons.merge = merge;    
 
 /*
  * List constructor

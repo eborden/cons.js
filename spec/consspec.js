@@ -1,10 +1,9 @@
 expect = require('chai').expect;
-l = require('../LinkedList.js');
-list = l.list;
-cons = l.cons;
-car = l.car;
-cdr = l.cdr;
-c_r = l.c_r;
+cons = require('../cons.js');
+list = cons.list;
+car = cons.car;
+cdr = cons.cdr;
+c_r = cons.c_r;
 
 describe('LinkedList', function () {
     var x = list(1, 2, 3, 4, 5, 6);
@@ -37,7 +36,7 @@ describe('LinkedList', function () {
     });
 
     it('can merge lists', function () {
-        expect('-1,0,1,2,3,4,5,6').to.eql(l.merge(list(-1, 0), x).toString());
+        expect('-1,0,1,2,3,4,5,6').to.eql(cons.merge(list(-1, 0), x).toString());
     });
 
     it('can access members of that list', function () {
@@ -58,7 +57,7 @@ describe('LinkedList', function () {
         expect('1,2,3,4,5,6').to.eql(x.toString());
         
         // Functional
-        expect('1,2,88,4,5,6').to.eql(l.set(x, 2, 88).toString());
+        expect('1,2,88,4,5,6').to.eql(cons.set(x, 2, 88).toString());
         expect('1,2,3,4,5,6').to.eql(x.toString());
     });
 
@@ -70,8 +69,8 @@ describe('LinkedList', function () {
         expect('10,15,20,25,30,35').to.eql(x.map(mul).map(add).toString());
         
         // Functional
-        expect('5,10,15,20,25,30').to.eql(l.map(mul, x).toString());
-        expect('10,15,20,25,30,35').to.eql(l.map(add, l.map(mul, x)).toString());
+        expect('5,10,15,20,25,30').to.eql(cons.map(mul, x).toString());
+        expect('10,15,20,25,30,35').to.eql(cons.map(add, cons.map(mul, x)).toString());
     });
 
     it('can fold over a list', function () {
@@ -81,8 +80,8 @@ describe('LinkedList', function () {
         expect(21).to.eql(x.foldr(add, 0));
         
         // Functional
-        expect(21).to.eql(l.foldl(add, 0, x));
-        expect(21).to.eql(l.foldr(add, 0, x));
+        expect(21).to.eql(cons.foldl(add, 0, x));
+        expect(21).to.eql(cons.foldr(add, 0, x));
     });
 
     it('can reverse a list', function () {
@@ -90,7 +89,7 @@ describe('LinkedList', function () {
         expect('6,5,4,3,2,1').to.eql(x.reverse().toString());
         
         // Functional
-        expect('6,5,4,3,2,1').to.eql(l.reverse(x).toString());
+        expect('6,5,4,3,2,1').to.eql(cons.reverse(x).toString());
     });
 
     it('can extract sections from the front of a list', function () {
@@ -99,12 +98,12 @@ describe('LinkedList', function () {
         expect('1,2,3,4').to.eql(x.take(4).toString());
         
         // Functional
-        expect('1,2,3').to.eql(l.take(3, x).toString());
-        expect('1,2,3,4').to.eql(l.take(4, x).toString());
+        expect('1,2,3').to.eql(cons.take(3, x).toString());
+        expect('1,2,3,4').to.eql(cons.take(4, x).toString());
     });
 
     it('can be iterated over', function () {
-        var i = l.iterator(x);
+        var i = cons.iterator(x);
         expect(i()).to.eql(1);
         expect(i()).to.eql(2);
         expect(i()).to.eql(3);
