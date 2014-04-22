@@ -32,6 +32,11 @@ describe('Cons', function () {
         expect([1,2,3,4,5,6]).to.eql(x.toArray());
     });
 
+    it('can get a list\'s length', function () {
+        // OOP
+        expect(list(1,2,3,4,5,6).length).to.eql(6);
+    });
+
     it('can prepend to a list', function () {
         // OOP
         expect('-1,0,1,2,3,4,5,6').to.eql(x.cons(0).cons(-1).toString());

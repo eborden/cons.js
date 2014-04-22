@@ -37,6 +37,14 @@ Cons.prototype.toString = function () {
 /*
  * OOP methods of Cons
  */
+Object.defineProperty(Cons.prototype, 'length', {
+    get: function () {
+        return length(this, 0);
+    },
+    set: function () {
+        throw {message: 'cannot overwrite length'};
+    }
+});
 Cons.prototype.set = function (i, value) {
     return set(i, value, this);
 };
@@ -143,11 +151,23 @@ function cdr(node) {
  */
 function c_r(string, node) {
     //break string into an array of a/d steps car/cdr
-    return string.split('').reverse().filter(function (str) {
+    return string.split('').filter(function (str) {
         return str === 'a' || str === 'd';
-    }).reduce(function (n, command) {
+    }).reduceRight(function (n, command) {
         return command === 'a' ? car(n) : cdr(n);
     }, node);
+}
+
+/*
+ * Get the length of a list
+ */
+function length(node, seed) {
+    if (seed === undefined) {
+        seed = 0;
+    }
+    var next = cdr(node);
+    seed += 1;
+    return next ? length(next, seed) : seed;
 }
 
 /*
